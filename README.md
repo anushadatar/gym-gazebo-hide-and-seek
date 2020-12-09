@@ -1,3 +1,15 @@
+# FA20 Computational Robotics Final Project
+*Siddharth Garimella and Anusha Datar*
+
+## Goal 
+Our goal with this project is to meaningfully recreate the [OpenAI Gym Hide and Seek demonstration](https://openai.com/blog/emergent-tool-use/) using reinforcement learning techniques, Gazebo, and ROS.
+
+## Code and Documentation
+We wrote our code for this project within a fork of the existing [erlerobot gym-gazebo fork of OpenAI Gym](https://github.com/erlerobot/gym-gazebo). Our documentation is avaialble on the [website associated with this repository](https://anushadatar.github.io/gym-gazebo-hide-and-seek/).
+
+# Original README associated with [gym-gazebo](https://github.com/erlerobot/gym-gazebo) 
+
+
 <img src="data/logo.jpg" width=25% align="right" /> [![Build status](https://travis-ci.org/erlerobot/gym-gazebo.svg?branch=master)](https://travis-ci.org/erlerobot/gym-gazebo)
 
 
