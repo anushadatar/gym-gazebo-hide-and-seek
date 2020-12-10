@@ -38,3 +38,9 @@ for the installation of the specific dependency that cans support turtlebot on P
   - Specifically, we changed line 69 in /usr/local/lib/python2.7/dist_packages/gym/wrappers/monitor.py to just os.makedirs(directory)
 - Rerun the script, record the GAZEBO_MASTER_URL from the logs
 - Start gazebo from another terminal by running `export GAZEBO_MASTER_URL={url from before}` and the `vglrun gzclient`
+
+# Project Update: 11/23
+One of our primary learning goals for this project was to practice integrating existing machine learning algorithms into larger robotics frameworks. There are two reasons we chose this -  to get to learn more about specific machine learning algorithms (specifically in reinforcement learning) and to get to practice integrating multiple complex systems into a cohesive project. As a result, we are trying to use OpenAI’s gym framework with ROS and Gazebo. Unsurprisingly, getting ROS, Gazebo, and OpenAI’s gym to talk to each other has been really challenging.
+
+A couple issues we’ve been running into as of our last attempt at getting the RL setup with Gazebo off the ground include setting up a compatible ROS distribution and OpenCV errors firing with the wrong version of Python. We expect to be able to smooth out these errors in the coming week, and start running iterations of our hide-and-seek simulation, particularly using resources from The Construct, an online robotics course which appears to have significant material on connecting OpenAI’s Gym with Gazebo.
+TODO Probably add more info here about the open ai path vs the gym path etc
