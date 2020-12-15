@@ -22,6 +22,7 @@ def render():
 if __name__ == '__main__':
 
     env = gym.make('GazeboMazeMultiTurtlebotLidar-v0')
+    env._max_episode_steps = 999
 
     outdir = '/tmp/gazebo_gym_experiments'
     env = gym.wrappers.Monitor(env, outdir, force=True)
@@ -44,8 +45,7 @@ if __name__ == '__main__':
         prep_done = False
         done = False
 
-        seeker_cumulated_reward = 0
-        hider_cumulated_reward = 0
+        cumulated_reward = 0
 
         observation = env.reset()
 
@@ -71,39 +71,38 @@ if __name__ == '__main__':
             state = nextState
 
         # SEARCH PHASE - SEEKERS SEEK
-        for i in range(500):
+        for i in range(500,1000):
             # Pick an action based on the current state
             action = qlearn.chooseAction(state)
 
             # Execute the action and get feedback
             observation, reward, done, info = env.step((action,False))
-            hider_reward, seeker_reward = reward
-            hider_cumulated_reward += hider_reward
-            seeker_cumulated_reward += seeker_reward
-
-            if highest_reward < (hider_cumulated_reward - seeker_cumulated_reward):
-                highest_reward = hider_cumulated_reward - seeker_cumulated_reward
+            cumulated_reward += reward
+            if highest_reward < cumulated_reward:
+                highest_reward = cumulated_reward
 
             nextState = ''.join(map(str, observation))
 
-            qlearn.learn(state, action, hider_cumulated_reward - seeker_cumulated_reward, nextState)
+            qlearn.learn(state, action, reward, nextState)
 
             env._flush(force=True)
 
             # Done when seeker hits saturated reward
-            if not(seeker_cumulated_reward > 4):
+            if not done:
                 state = nextState
             else:
                 last_time_steps = numpy.append(last_time_steps, [int(i + 1)])
                 break
+
+        env.stats_recorder.save_complete()
+        env.stats_recorder.done = True
         
-        done = True
         if x%100==0:
             plotter.plot(env)
 
         m, s = divmod(int(time.time() - start_time), 60)
         h, m = divmod(m, 60)
-        print ("EP: "+str(x+1)+" - [alpha: "+str(round(qlearn.alpha,2))+" - gamma: "+str(round(qlearn.gamma,2))+" - epsilon: "+str(round(qlearn.epsilon,2))+"] - Reward: "+str(hider_cumulated_reward-seeker_cumulated_reward)+"     Time: %d:%02d:%02d" % (h, m, s))
+        print ("EP: "+str(x+1)+" - [alpha: "+str(round(qlearn.alpha,2))+" - gamma: "+str(round(qlearn.gamma,2))+" - epsilon: "+str(round(qlearn.epsilon,2))+"] - Reward: "+str(reward)+"     Time: %d:%02d:%02d" % (h, m, s))
 
     #Github table content
     print ("\n|"+str(total_episodes)+"|"+str(qlearn.alpha)+"|"+str(qlearn.gamma)+"|"+str(initial_epsilon)+"*"+str(epsilon_discount)+"|"+str(highest_reward)+"| PICTURE |")
