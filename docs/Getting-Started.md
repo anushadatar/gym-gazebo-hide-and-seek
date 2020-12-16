@@ -1,3 +1,8 @@
+---
+layout: "default"
+title: Getting Started
+---
+
 # Getting Started
 Learning how to set up a working system using gym, gazebo, and ROS was a major component of our project.
 We eventually landed on using the (now-deprecated) [gym-gazebo](https://github.com/erlerobot/gym-gazebo) as a starting point, 
@@ -74,12 +79,12 @@ cp ~/gym-gazebo-hide-and-seek/gym-gazebo/envs/assets /PATH_TO_LOCAL_GYM_GAZEBO_I
 vim YOUR_PYTHON_INSTALLATION/gym/wrappers/monitor.py
 ```
 Omit the `exist_ok` parameter on line 69 of this file.
-## Run an example test script 
+## Run the project script 
 ```
 cd gym_gazebo/envs/installation
 bash turtlebot_setup.bash
-cd ~/gym-gazebo-hide-and-seek/examples/turtlebot
-vglrun python circuit2_turtlebot_lidar_qlearn.py
+cd ~/examples/turtlebot
+vglrun python maze_multi_turtlebot_lidar_qlearn.py
 ```
 Note the `GAZEBO_MASTER_URI` variable from the script's output. In another terminal, set this URI manually and then
 start Gazebo.
@@ -87,3 +92,4 @@ start Gazebo.
 export GAZEBO_MASTER_URI=URI_GOES_HERE
 vglrun gzclient
 ```
+This should allow you to run the program.
