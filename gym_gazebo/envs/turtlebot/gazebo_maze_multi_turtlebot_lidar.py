@@ -1,3 +1,6 @@
+"""
+Script associated with robot operation, computes and returns robot state for each step.
+"""
 import gym
 import rospy
 import roslaunch
@@ -12,7 +15,6 @@ from gym import utils, spaces
 from gym_gazebo.envs import gazebo_env
 from geometry_msgs.msg import Twist
 from std_srvs.srv import Empty
-
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import LaserScan
 from gym.utils import seeding
@@ -23,12 +25,15 @@ from skimage import transform, color, exposure
 from skimage.transform import rotate
 from skimage.viewer import ImageViewer
 
-from gym.utils import seeding
-
 class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
-
+    """
+    Environment associated with the multiple turtlebot hide and seek simulation.
+    """
     def __init__(self):
-        # Launch the simulation with the given launchfile name
+      	"""
+	Initialize the simulation, image processing variables, and rewards.
+	"""
+	# Launch the simulation with the given launchfile name
         gazebo_env.GazeboEnv.__init__(self, "GazeboMazeMultiTurtlebotLidar_v0.launch")
         self.t1_vel_pub = rospy.Publisher('/turtle_1/mobile_base/commands/velocity', Twist, queue_size=5)
         self.t2_vel_pub = rospy.Publisher('/turtle_2/mobile_base/commands/velocity', Twist, queue_size=5)
@@ -45,15 +50,30 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
         self.img_rows = 32
         self.img_cols = 32
         self.img_channels = 1
+	
+	self.hider_reward_increment = 1
+	self.seeker_reward_increment = 2
+
 
     def _seed(self, seed=None):
+	"""
+	Get the random seed for beginning environment operation.
+	
+	seed : Input seed value, defaults to None.
+	Returns seed value.
+	"""
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
     def in_view(self, gray_cv_image):
+	"""
+	Returns whether or not the other robot is in view.
+	gray_cv_image: The image associated with the robot's camera view.
+
+	Returns true if robot in view, false otherwise.
+	"""
         turtlebot_detected = False
-        # Detect a black
-        cv2.imshow("test", gray_cv_image)
+        cv2.imshow("in_view test", gray_cv_image)
         ret, thresh = cv2.threshold(gray_cv_image, 25, 255, cv2.THRESH_BINARY_INV)
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         if len(contours) > 0:
@@ -61,6 +81,9 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
         return turtlebot_detected
 
     def step(self, actionprep):
+	"""
+	Update the reward values for each step.
+	"""
         action, prep = actionprep
         rospy.wait_for_service('/gazebo/unpause_physics')
         try:
@@ -100,7 +123,7 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
             self.last50actions.append(1)
         action_sum = sum(self.last50actions)
 
-        # Use seeker vision to determine hider and seeker rewards
+        # Use the seeker's vision to determine hider and seeker rewards
         seeker_image = None
         success = False
         cv_image = None
@@ -110,7 +133,7 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
                 h = seeker_image.height
                 w = seeker_image.width
                 cv_image = CvBridge().imgmsg_to_cv2(seeker_image, "bgr8")
-                #temporal fix, check image is not corrupted
+                # Temporal fix to check image is not corrupted.
                 if not (cv_image[h//2,w//2,0]==178 and cv_image[h//2,w//2,1]==178 and cv_image[h//2,w//2,2]==178):
                     success = True
                 else:
@@ -131,16 +154,16 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
         seeker_reward = 0
 
         if not prep:
-            # calculate hider seeker rewards from cv_image
+            # Calculate hider seeker rewards from cv_image
             if self.in_view(cv_image):
                 print("IN VIEW")
-                seeker_reward += 1
-                hider_reward -= 1
+                seeker_reward += self.seeker_reward_increment
+                hider_reward -= self.hider_reward_increment
             else:
-                seeker_reward -= 1
-                hider_reward += 1
+                seeker_reward -= self.seeker_reward_increment
+                hider_reward += self.hider_reward_increment
             if action_sum > 40:
-                seeker_reward += 0.2
+                seeker_reward += 0.2*self.seeker_reward_increment
 
         state = cv_image.reshape(1, 1, cv_image.shape[0], cv_image.shape[1])
 
@@ -148,7 +171,9 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
 
 
     def reset(self):
-        
+        """
+	Reset the environment state.
+	"""
         self.last50actions = [0]*50
         # Resets the state of the environment and returns an initial observation.
         rospy.wait_for_service('/gazebo/reset_simulation')
