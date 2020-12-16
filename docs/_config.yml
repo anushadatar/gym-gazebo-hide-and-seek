@@ -1,0 +1,4 @@
+theme: jekyll-theme-minimal
+title: gym-gazebo Hide and Seek
+description: Recreating the OpenAI hide and seek demonstration using gym and gazebo. Olin College Computational Robotics FA20 final project.
+baseurl: /gym-gazebo-hide-and-seek
