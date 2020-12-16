@@ -1,4 +1,11 @@
-This setup uniquely applies to a Docker container running Ubuntu 16.04 and ROS Kinetic, and it will 
+# Getting Started
+Learning how to set up a working system using gym, gazebo, and ROS was a major component of our project.
+We eventually landed on using the (now-deprecated) [gym-gazebo](https://github.com/erlerobot/gym-gazebo) as a starting point, 
+and we made a variety of modifications to its workflow to get our version running. For more information about this process,
+check out our [blog posts](https://anushadatar.github.io/gym-gazebo-hide-and-seek/Blog-Posts.html). This page provides some
+context into how to recreate our setup.
+
+Note that this setup uniquely applies to a Docker container running Ubuntu 16.04 and ROS Kinetic, and it will 
 likely require modification on other platforms. We also created this through our own troubleshooting
 errors as we tried to set this up, so there are likely more efficient installation methods.
 
@@ -67,7 +74,7 @@ cp ~/gym-gazebo-hide-and-seek/gym-gazebo/envs/assets /PATH_TO_LOCAL_GYM_GAZEBO_I
 vim YOUR_PYTHON_INSTALLATION/gym/wrappers/monitor.py
 ```
 Omit the `exist_ok` parameter on line 69 of this file.
-## Run the test script 
+## Run an example test script 
 ```
 cd gym_gazebo/envs/installation
 bash turtlebot_setup.bash
