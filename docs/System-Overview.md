@@ -12,7 +12,7 @@ Figuring out the steps to get started with this codebase was particularly time-c
 
 Besides a slew of development technologies we used to create an environment within which we could test simulations, our architecture looks roughly like the following:
 
-![architecture](cr.png)
+![architecture](../cr.png)
 
 ## Code Structure
 
