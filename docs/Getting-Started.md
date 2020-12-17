@@ -82,14 +82,5 @@ Omit the `exist_ok` parameter on line 69 of this file.
 ## Run the project script 
 ```
 cd gym_gazebo/envs/installation
-bash turtlebot_setup.bash
-cd ~/examples/turtlebot
-vglrun python maze_multi_turtlebot_lidar_qlearn.py
+bash start.sh
 ```
-Note the `GAZEBO_MASTER_URI` variable from the script's output. In another terminal, set this URI manually and then
-start Gazebo.
-```
-export GAZEBO_MASTER_URI=URI_GOES_HERE
-vglrun gzclient
-```
-This should allow you to run the program.
