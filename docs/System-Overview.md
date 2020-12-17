@@ -12,9 +12,9 @@ Figuring out the steps to get started with this codebase was particularly time-c
 
 Besides a slew of development technologies we used to create an environment within which we could test simulations, our architecture looks roughly like the following:
 
-![architecture](images/cr.png)
+![Architecture](images/cr.png)
 
-![architecture](cr.png)
+![Architecture](cr.png)
 
 ## Code Structure
 
@@ -27,9 +27,9 @@ The first of these files is responsible for defining the action spaces and step 
 
 The second file orchestrates the simulation and reinforcement learning process by independently managing Q-Learning algorithms for the hiders and seekers, running a for loop for 1000 steps in a learning episode, and dividing the steps between a preparatory "hiding" phase, and a "seeking" one. This, to the best of our knowledge, is configured to closely mirror the OpenAI hide-and-seek simulations available [here](https://openai.com/blog/emergent-tool-use/).
 
-![architecture](images/crt.png)
+![Configuration](images/crt.png)
 
-![architecture](crt.png)
+![Configuration](crt.png)
 
 ## Algorithms
 
@@ -39,9 +39,9 @@ There's also some rudimentary computer vision performed to identify when a robot
 
 While difficult to see initially, this results in simulations where the seeker gradually improves at finding the hidden turtlebot!
 
-![architecture](images/crg.gif)
+![In action!](images/crg.gif)
 
-![architecture](crg.gif)
+![In action!](crg.gif)
 
 ## Reflection
 
