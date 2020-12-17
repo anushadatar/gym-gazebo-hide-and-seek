@@ -27,6 +27,10 @@ The first of these files is responsible for defining the action spaces and step 
 
 The second file orchestrates the simulation and reinforcement learning process by independently managing Q-Learning algorithms for the hiders and seekers, running a for loop for 1000 steps in a learning episode, and dividing the steps between a preparatory "hiding" phase, and a "seeking" one. This, to the best of our knowledge, is configured to closely mirror the OpenAI hide-and-seek simulations available [here](https://openai.com/blog/emergent-tool-use/).
 
+![architecture](images/crt.png)
+
+![architecture](crt.png)
+
 ## Algorithms
 
 We leverage a reinforcement learning approach using a Q-Learning algorithm, included to us through gym-gazebo. To proceed with our project on a timely basis, we developed a quick intuitive understanding of the Q-Learning algorithm vs. SARSA, an alternative made available to us in gym-gazebo. SARSA appears to be a more conservative learning process, useful in situations where the behavior of the robot as it learns is important to us, while Q-Learning attempts to find a solution it converge on greedily. As we didn't pursue the math behind these two systems very far, and we roughly concluded the training behavior was largely unimportant to us (provided it is still towards hide-and-seek), we opted to use Q-Learning.
