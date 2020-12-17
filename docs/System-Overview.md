@@ -33,6 +33,12 @@ We leverage a reinforcement learning approach using a Q-Learning algorithm, incl
 
 There's also some rudimentary computer vision performed to identify when a robot sees another robot, and a simple reward function we adopt from OpenAI's own simulations, in which any line-of-sight event between hiders and seekers results in <seeker_reward+=1 & hider_reward-=1> and robots successfully hidden at the end of each episode results in <seeker_reward-=1 & hider_reward+=1>.
 
+While difficult to see initially, this results in simulations where the seeker gradually improves at finding the hidden turtlebot!
+
+![architecture](images/crg.gif)
+
+![architecture](crg.gif)
+
 ## Reflection
 
 Orchestrating the learning procedure is perhaps the trickier part of conducting RL-based training. While setting up the action spaces, step functions, and reward calculus for each robot is actually fairly simple, there are critical structures within the game rules that may call for the use of multiple different networks, training phases, and states that all need to be paid close attention to. Architected correctly, the RL algorithm can produce some surprisingly effective results over time, as we've found in our dry runs of sample gym-gazebo code.
