@@ -11,5 +11,4 @@ This website contains a description of our system's overall functionality and ar
 
 ## Demonstration
 In this project, we recreate the OpenAI Hide and Seek demonstration using ROS and Gazebo. We spent a large portion of the project creating an envrionment and procedure by which to use the gym library with gazebo and ROS. Following this work, we developed a way to place two turtlebots in the simulation, and then we trained one turtlebot to be the seeker and one turtlebot to be the hider. While difficult to see initially, this results in simulations where the seeker gradually improves at finding the hidden turtlebot!
-![In action!](images/crg.gif)
-![In action!](crg.gif)
+![In action!](images/gif-with-training.gif)
