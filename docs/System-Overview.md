@@ -14,6 +14,8 @@ Besides a slew of development technologies we used to create an environment with
 
 ![architecture](images/cr.png)
 
+![architecture](cr.png)
+
 ## Code Structure
 
 While getting the dependencies lined up for running the code in this repository is quite non-trivial, the code structure is actually rather straightforward-- there are two files of interest we developed for our simulations:
