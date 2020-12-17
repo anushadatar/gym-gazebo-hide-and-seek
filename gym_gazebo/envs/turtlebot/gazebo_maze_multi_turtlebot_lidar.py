@@ -73,11 +73,13 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
 	Returns true if robot in view, false otherwise.
 	"""
         turtlebot_detected = False
-        cv2.imshow("in_view test", gray_cv_image)
-        ret, thresh = cv2.threshold(gray_cv_image, 25, 255, cv2.THRESH_BINARY_INV)
-        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-        if len(contours) > 0:
-            turtlebot_detected = True
+        
+	#cv2.imshow("in_view test", gray_cv_image)
+        
+	#ret, thresh = cv2.threshold(gray_cv_image, 25, 255, cv2.THRESH_BINARY_INV)
+        #contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+        #if len(contours) > 0:
+        #    turtlebot_detected = True
         return turtlebot_detected
 
     def step(self, actionprep):
@@ -146,17 +148,23 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
             self.pause()
         except (rospy.ServiceException) as e:
             print ("/gazebo/pause_physics service call failed")
-
+	in_view = False
+        if cv_image.min() < 60:
+	    in_view = True
+	#hsv_image = cv2.cvtColor(cv_image. cv2.COLOR_BGR2HSV)
         cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
         cv_image = cv2.resize(cv_image, (self.img_rows, self.img_cols))
+	
 
         hider_reward = 0
         seeker_reward = 0
+        done = False
 
         if not prep:
             # Calculate hider seeker rewards from cv_image
-            if self.in_view(cv_image):
-                print("IN VIEW")
+            if in_view:
+                #print("IN VIEW")
+                done = True
                 seeker_reward += self.seeker_reward_increment
                 hider_reward -= self.hider_reward_increment
             else:
@@ -167,7 +175,7 @@ class GazeboMazeMultiTurtlebotLidarEnv(gazebo_env.GazeboEnv):
 
         state = cv_image.reshape(1, 1, cv_image.shape[0], cv_image.shape[1])
 
-        return state, hider_reward - seeker_reward, False, {}
+        return state, hider_reward - seeker_reward, done, {}
 
 
     def reset(self):
