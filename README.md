@@ -1,4 +1,5 @@
-# FA20 Computational Robotics Final Project
+# gym-gazebo Hide and Seek
+## FA20 Computational Robotics Final Project
 *Siddharth Garimella and Anusha Datar*
 
 ## Goal 
