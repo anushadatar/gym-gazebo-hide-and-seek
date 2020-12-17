@@ -21,7 +21,7 @@ While getting the dependencies lined up for running the code in this repository 
 
 The first of these files is responsible for defining the action spaces and step functions of robots in our simulation. Namely, we have two roles we've embedded into this file-- a "hider" and a "seeker". The file a step function that treats these roles separately, as during the "prep" phase the hider is active, else the seeker is.
 
-The second file orchestrates the simulation and reinforcement learning process by independently managing Q-Learning algorithms for the hiders and seekers, running a for loop for 1000 steps in a learning episode, and dividing the steps between a preparatory "hiding" phase, and a "seeking" one. This, to the best of our knowledge, is configured to closely mirror the OpenAI hide-and-seek simulations available (here)[https://openai.com/blog/emergent-tool-use/].
+The second file orchestrates the simulation and reinforcement learning process by independently managing Q-Learning algorithms for the hiders and seekers, running a for loop for 1000 steps in a learning episode, and dividing the steps between a preparatory "hiding" phase, and a "seeking" one. This, to the best of our knowledge, is configured to closely mirror the OpenAI hide-and-seek simulations available [https://openai.com/blog/emergent-tool-use/](here).
 
 ## Algorithms
 
